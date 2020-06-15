@@ -10,26 +10,28 @@ const difficultySelect = document.getElementById('difficulty');
 
 // List of words for game
 const words = [
-	'sigh',
-	'tense',
-	'airplane',
-	'ball',
-	'pies',
-	'juice',
-	'warlike',
-	'bad',
-	'north',
-	'dependent',
-	'steer',
-	'silver',
-	'highfalutin',
-	'superficial',
-	'quince',
-	'eight',
-	'feeble',
-	'admit',
-	'drag',
-	'loving'
+	'const',
+	'let',
+	'console',
+	'container',
+	'random',
+	'interval',
+	'update',
+	'button',
+	'element',
+	'settings',
+	'option',
+	'select',
+	'onclick',
+	'submit',
+	'localstorage',
+	'text',
+	'debugger',
+	'delete',
+	'function',
+	'return',
+	'this',
+	'typeof'
 ];
 
 // Init word
@@ -40,6 +42,18 @@ let score = 0;
 
 // Init time
 let time = 10;
+
+// Set difficulty to value in local storage
+let difficulty =
+	localStorage.getItem('difficulty') !== null
+		? localStorage.getItem('difficulty')
+		: 'medium';
+
+// Set difficulty select value
+difficultySelect.value =
+	localStorage.getItem('difficulty') !== null
+		? localStorage.getItem('difficulty')
+		: 'medium';
 
 // Focus on text on start
 text.focus();
@@ -91,6 +105,7 @@ addWordToDOM();
 
 // Event listeners
 
+// Typing
 text.addEventListener('input', (e) => {
 	const insertedText = e.target.value;
 
@@ -101,8 +116,25 @@ text.addEventListener('input', (e) => {
 		// Clear
 		e.target.value = '';
 
-		time += 5;
+		if (difficulty === 'hard') {
+			time += 2;
+		} else if (difficulty === 'medium') {
+			time += 3;
+		} else {
+			time += 5;
+		}
 
 		updateTime();
 	}
+});
+
+// Settings btn click
+settingsBtn.addEventListener('click', () => {
+	settings.classList.toggle('hide');
+});
+
+// Settings select
+settingsForm.addEventListener('change', (e) => {
+	difficulty = e.target.value;
+	localStorage.setItem('difficulty', difficulty);
 });
